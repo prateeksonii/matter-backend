@@ -6,11 +6,17 @@
   "author": "prateeksonii <prateek_soni@outlook.com>",
   "license": "MIT",
   "scripts": {
+    "dev": "nodemon src/index.js",
     "knex:migrate": "knex migrate:latest",
     "knex:rollback": "knex migrate:rollback"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
     "knex": "^0.95.13",
+    "morgan": "^1.10.0",
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
@@ -19,6 +25,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.14",
     "prettier": "^2.4.1"
   }
 }
