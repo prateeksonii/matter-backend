@@ -1,0 +1,24 @@
+{
+  "name": "matter-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/prateeksonii/matter-backend.git",
+  "author": "prateeksonii <prateek_soni@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "knex:migrate": "knex migrate:latest",
+    "knex:rollback": "knex migrate:rollback"
+  },
+  "dependencies": {
+    "knex": "^0.95.13",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1"
+  }
+}
