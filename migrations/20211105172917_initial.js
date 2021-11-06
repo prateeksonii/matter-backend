@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 // eslint-disable-next-line no-unused-vars
 const { Knex } = require('knex');
 
