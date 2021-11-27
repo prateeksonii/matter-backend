@@ -25,6 +25,7 @@ exports.up = (knex) =>
       addDefaultColumns(table);
       table.integer('owner_id').unsigned().notNullable();
       table.text('name').notNullable().unique();
+      table.text('description');
       table.text('logo_url');
       table.text('primary_color');
       table.text('secret').notNullable();

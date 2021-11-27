@@ -26,6 +26,15 @@ exports.createUser = async (req, res, next) => {
       throw new Error(error.details.map((detail) => detail.message).join(','));
     }
 
+    const [existingUser] = await User.query()
+      .select('*')
+      .where('email', value.email);
+
+    if (existingUser) {
+      res.status(409);
+      throw new Error('This email address already exists');
+    }
+
     const hashedPassword = await argon2.hash(value.password, {
       saltLength: 12,
     });
@@ -104,11 +113,11 @@ exports.isAuthenticated = (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
+    console.log(req.headers.authorization);
+
     if (!authorization) {
-      return res.json({
-        ok: false,
-        user: null,
-      });
+      res.status(403);
+      throw new Error('User not authenticated');
     }
 
     const [, token] = authorization.split(' ');
