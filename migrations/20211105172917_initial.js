@@ -36,6 +36,7 @@ exports.up = (knex) =>
       addDefaultColumns(table);
       table.integer('user_id').unsigned().notNullable().unique();
       table.integer('organization_id').unsigned().notNullable();
+      table.integer('role_id').unsigned().notNullable();
 
       table.foreign('user_id').references('id').inTable('users');
       table
@@ -70,7 +71,7 @@ exports.up = (knex) =>
     });
 
 /**
- * @date 2021-11-05
+ * @date 2021-11-05 
  * @param {Knex} knex
  * @returns {Knex.SchemaBuilder}
  */
