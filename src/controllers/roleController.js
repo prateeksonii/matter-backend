@@ -1,18 +1,24 @@
 const Joi = require('joi');
+const OrganizationMember = require('../models/OrganizationMember');
+const Role = require('../models/Role');
+const User = require('../models/User');
 
 const roleSchema = Joi.object({
   name: Joi.string().required().normalize().trim(),
-  organizationId: Joi.number().required(),
   rolePermission: Joi.object().required(),
 });
 
 exports.createRole = async (req, res, next) => {
-  const { name, organizationId, rolePermission } = req.body;
+  const { name, rolePermission } = req.body;
 
   try {
+    const [{ organization_id: organizationId }] =
+      await OrganizationMember.query()
+        .select('organization_id')
+        .where('user_id', req.user.id);
+
     const { value, error } = roleSchema.validate({
       name,
-      organizationId,
       rolePermission,
     });
 
@@ -23,7 +29,7 @@ exports.createRole = async (req, res, next) => {
 
     await Role.query().insertGraphAndFetch({
       name: value.name,
-      organization_id: value.organizationId,
+      organization_id: organizationId,
       role_permission: value.rolePermission,
     });
 
@@ -32,5 +38,27 @@ exports.createRole = async (req, res, next) => {
     });
   } catch (err) {
     return next(err);
+  }
+};
+
+exports.getRoles = async (req, res, next) => {
+  try {
+    const [{ organization_id: organizationId }] =
+      await OrganizationMember.query()
+        .select('organization_id')
+        .where('user_id', req.user.id);
+
+    const roles = await Role.query()
+      .withGraphFetched('[organization,role_permission]')
+      .where('roles.organization_id', organizationId);
+
+    return res.json({
+      ok: true,
+      result: {
+        roles,
+      },
+    });
+  } catch (err) {
+    return next();
   }
 };
